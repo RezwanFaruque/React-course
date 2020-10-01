@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import {Navbar, NavbarBrand } from 'reactstrap';
+import Header from './HeaderComponent';
+import Footer from './FooterComponent';
 import Menu from './menuComponents';
 import DishDetails from './DishdetailsComponents';
 import { DISHES } from '../Shared/Dishes';
+
 
 
 class Main extends Component{
@@ -28,15 +30,12 @@ class Main extends Component{
   render(){
     return (
       <div className="App">
-        <Navbar dark color="primary">
-          <div className="container">
-            <NavbarBrand href="/">Amar Resturant</NavbarBrand>
-          </div>
-        </Navbar>
-        <Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)} />
+        <Header />
+          <Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)} />
 
-        <DishDetails dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} />
+          <DishDetails dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} />
          
+          <Footer />
       </div>
     );
   }
