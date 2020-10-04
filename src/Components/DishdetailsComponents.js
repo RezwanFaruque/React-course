@@ -1,10 +1,11 @@
 import React  from 'react';
-import { Card, CardImg, CardTitle,CardText,CardBody } from 'reactstrap';
+import { Card, CardImg, CardTitle,CardText,CardBody,Breadcrumb , BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 
     // display selected menu dish
     function RenderDish( {dish} ){
-        
+        console.log('render dish funcition on');
         if(dish != null){
            
             return(
@@ -25,9 +26,10 @@ import { Card, CardImg, CardTitle,CardText,CardBody } from 'reactstrap';
     }
 
     function RenderComments( {selectedDishComments} ){
-       
+        console.log('render comments funcition on');
+
         if(selectedDishComments != null){
-            let list = selectedDishComments.comments.map((comment)=>{
+            let list = selectedDishComments.map((comment)=>{
                 return(
                     <li key={comment.id}>
                         <p>{comment.comment}</p>
@@ -56,12 +58,23 @@ import { Card, CardImg, CardTitle,CardText,CardBody } from 'reactstrap';
    const DishDetails = (props) => {
         return(
             <div className="container">
+                <div className="row">
+                    <Breadcrumb>
+
+                        <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{props.dish.name}</h3>
+                        <hr />
+                    </div>                
+                </div>
                 <div className="row mt-2">
                     <div className="col-12 col-md-6">
                         <RenderDish dish={props.dish} />
                     </div>
                     <div className="col-12 col-md-6">
-                        <RenderComments selectedDishComments={props.dish} />
+                        <RenderComments selectedDishComments={props.comments} />
                     </div>
                 </div>
             </div>
