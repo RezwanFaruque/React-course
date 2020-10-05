@@ -5,6 +5,7 @@ import Home from './HomeComponent';
 import Menu from './menuComponents';
 import Contact from './ContactComponents';
 import DishDetails from './DishdetailsComponents';
+import AboutUs from './AboutComponent';
 import { DISHES } from '../Shared/Dishes';
 import { COMMENTS } from '../Shared/Comments';
 import { LEADERS } from '../Shared/Leaders';
@@ -48,6 +49,13 @@ class Main extends Component{
       )
     }
 
+    const About = ()=>{
+     return(
+      <AboutUs leaders={this.state.leaders} /> 
+     )
+     
+    }
+
     const DishWithId = ({match}) => {
       return(
           <DishDetails dish={this.state.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
@@ -62,6 +70,7 @@ class Main extends Component{
            <Route path='/home' component={HomePage} />
            <Route exact path='/menu' component={()=><Menu dishes={this.state.dishes} />} />
            <Route exact path='/contactus' component={Contact} />
+           <Route exact path='/aboutus' component={()=><About />} />
            <Route path='/menu/:dishId' component={DishWithId} />
            <Redirect to='/home' />
         </Switch>
