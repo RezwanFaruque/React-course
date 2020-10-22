@@ -2,13 +2,33 @@ import React,{Component} from 'react';
 import { Card,Button, CardImg, CardTitle,CardText,CardBody,Breadcrumb,Label ,Row,Col,Form,FormGroup,Input, BreadcrumbItem, Modal, ModalHeader, ModalBody, FormFeedback } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { LocalForm,Control,Errors } from 'react-redux-form';
+import {Loading} from './LoadingComponent'
 
 
 
     // display selected menu dish
-    function RenderDish( {dish} ){
+    function RenderDish( {dish,isLoading,errMess} ){
         console.log('render dish funcition on');
-        if(dish != null){
+        if(isLoading){
+            return(
+                <div className="container">
+                    <div className="row">            
+                        <Loading />
+                    </div>
+                </div>
+            );
+        }
+
+        else if(errMess){
+            return(
+                <div className="container">
+                    <div className="row">            
+                        <h4>{errMess}</h4>
+                    </div>
+                </div>
+            );
+        }
+        else if(dish != null){
            
             return(
                 <Card>
@@ -167,39 +187,33 @@ import { LocalForm,Control,Errors } from 'react-redux-form';
     const maxLength = (len) => (val) => !(val) || (val.length <= len);
     const minLength = (len) => (val) => val && (val.length >= len);
 
-   class DishDetails extends Component {
+   function DishDetails({dish,isLoading,errMess,comments,addComments}){
+       console.log("All dishhes is "+comments.comment);
 
-    constructor(props){
-        super(props);
-        this.state={
-           
-        }
-
-       
-    }
-
-    render(){
         return(
             <div className="container">
                 <div className="row">
                     <Breadcrumb>
 
                         <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
-                        <BreadcrumbItem active>{this.props.dish.name}</BreadcrumbItem>
+                        <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
                     </Breadcrumb>
                     <div className="col-12">
-                        <h3>{this.props.dish.name}</h3>
+                        <h3>{dish.name}</h3>
                         <hr />
                     </div>                
                 </div>
                 <div className="row mt-2">
                     <div className="col-12 col-md-6">
-                        <RenderDish dish={this.props.dish} />
+                        <RenderDish dish={dish} 
+                        isLoading={isLoading}
+                        errMess={errMess}
+                        />
                     </div>
                     <div className="col-12 col-md-6">
-                        <RenderComments selectedDishComments={this.props.comments} 
-                        addComments ={this.props.addComments}
-                        dishId = {this.props.dish.id}
+                        <RenderComments selectedDishComments={comments} 
+                        addComments ={addComments}
+                        dishId = {dish}
                         />
                         
                     </div>
@@ -207,10 +221,8 @@ import { LocalForm,Control,Errors } from 'react-redux-form';
             </div>
             
         );
-    }
         
-    }
-
+   }
 
 
 export default DishDetails;
